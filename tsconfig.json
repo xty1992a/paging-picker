@@ -13,14 +13,17 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
+    "noEmit": true,
     "importHelpers": true,
     "strictNullChecks": true,
     "outDir": "dist",
     "allowSyntheticDefaultImports": true,
-    "noUnusedLocals": false
+    "noUnusedLocals": false,
+    "paths": {
+      "tsLib": ["tslib"]
+    }
   },
-  "include": [
-  ],
+  "include": [],
   "exclude": [
     "node_modules",
     "build",
