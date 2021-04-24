@@ -1,0 +1,24 @@
+.paging-table {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  &_search {
+  }
+  &_content {
+    flex: 1;
+    overflow: auto;
+    .ant-table-header {
+      background: transparent;
+      tr,
+      th {
+        background-color: transparent;
+      }
+    }
+  }
+  &_foot {
+    flex: 0;
+    display: flex;
+    padding-top: 20px;
+    justify-content: flex-end;
+  }
+}

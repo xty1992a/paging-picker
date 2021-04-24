@@ -2,20 +2,31 @@ import React from "react";
 import { render, unmountComponentAtNode } from "react-dom";
 import PagingPicker from "./PagingPicker";
 
-import type { PickOptions, Pack, Item, PickResult } from "../types";
+import type {
+  PickOptions,
+  Pack,
+  Item,
+  PickResult,
+  PagingPickerProps,
+} from "../types";
 
-const dftOptions: PickOptions = {
+const dftOptions = {
   value: [],
   options: [],
   radio: false,
   paging: false,
+  title: "标题",
+  width: "600px",
+  searchable: false,
   alias: {
     key: "key",
     title: "title",
   },
 };
 
-function mergeOptions(lameOptions: Pack = {}) {
+function mergeOptions<T>(
+  lameOptions: PickOptions<T> & { resolve: Function }
+): PagingPickerProps<T> {
   const result = {
     ...dftOptions,
     ...lameOptions,
@@ -26,24 +37,35 @@ function mergeOptions(lameOptions: Pack = {}) {
   };
 
   // 无request,但有options,实际就是静态options的配置项
-  if (!result.request && result.options) {
-    result.request = () => result.options;
-  }
+  const request =
+    result.request ||
+    (() =>
+      Promise.resolve({
+        success: true,
+        data: {
+          list: result.options || [],
+          total: result.options?.length ?? 0,
+        },
+      }));
 
-  return result;
+  // @ts-ignore
+  return {
+    ...result,
+    request,
+  };
 }
 
-export default function pickItem(options: PickOptions) {
-  const { value } = mergeOptions(options);
-
+export default function pickItem<T>(
+  options: PickOptions<T>
+): Promise<PickResult<T>> {
   return new Promise((resolve) => {
     const div = document.createElement("div");
     document.body.appendChild(div);
-    const _resolve = (result: PickResult) => {
+    const _resolve = (result: PickResult<T>) => {
       unmountComponentAtNode(div);
       resolve(result);
     };
-    console.log("插入元素");
-    render(<PagingPicker resolve={_resolve} value={value} />, div);
+    const mergedOptions = mergeOptions<T>({ ...options, resolve: _resolve });
+    render(<PagingPicker {...mergedOptions} />, div);
   });
 }

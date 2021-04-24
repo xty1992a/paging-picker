@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1.0,user-scalable=no"
+    />
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/react@16.13.1/umd/react.production.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/react-dom@16.13.1/umd/react-dom.production.min.js"
+    ></script>
+    <script src="https://unpkg.com/antd@4.15.2/dist/antd.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/antd@4.15.2/dist/antd.min.css"
+    />
+    <script type="text/javascript" src="../lib/paging-picker.js"></script>
+    <title>Title</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+        user-select: none;
+      }
+      .app {
+        height: 100vh;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <button id="btn">按钮</button>
+    </div>
+
+    <script type="text/javascript">
+      btn.addEventListener("click", async () => {
+        const result = await pickItem({
+          value: [],
+        });
+      });
+    </script>
+  </body>
+</html>

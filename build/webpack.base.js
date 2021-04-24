@@ -1,6 +1,7 @@
 /**
  * Created by TY-xie on 2018/3/26.
  */
+const isDEV = process.env.NODE_ENV === "development";
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
@@ -41,26 +42,23 @@ const baseConfig = {
     ],
   },
   plugins: [],
-  externals: {
-    antd: {
-      commonjs: "antd",
-      commonjs2: "antd",
-      amd: "antd",
-      root: "antd",
-    },
-    react: {
-      commonjs: "react",
-      commonjs2: "react",
-      amd: "react",
-      root: "React",
-    },
-    "react-dom": {
-      commonjs: "react-dom",
-      commonjs2: "react-dom",
-      amd: "react-dom",
-      root: "ReactDOM",
-    },
-  },
+  externals: isDEV
+    ? {}
+    : {
+        antd: "antd",
+        react: {
+          commonjs: "react",
+          commonjs2: "react",
+          amd: "react",
+          root: "React",
+        },
+        "react-dom": {
+          commonjs: "react-dom",
+          commonjs2: "react-dom",
+          amd: "react-dom",
+          root: "ReactDOM",
+        },
+      },
 };
 
 module.exports = baseConfig;

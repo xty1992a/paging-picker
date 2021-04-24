@@ -1,6 +1,7 @@
 /*
 	config for build umd module to use
 * */
+process.env.NODE_ENV = "production";
 const path = require("path");
 const base = require("./webpack.base");
 const merge = require("webpack-merge");
