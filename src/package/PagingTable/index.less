@@ -2,8 +2,6 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  &_search {
-  }
   &_content {
     flex: 1;
     overflow: auto;
@@ -12,6 +10,7 @@
       tr,
       th {
         background-color: transparent;
+        color: #999;
       }
     }
   }
@@ -20,5 +19,12 @@
     display: flex;
     padding-top: 20px;
     justify-content: flex-end;
+    align-items: center;
+    .refresh {
+      padding: 0 10px;
+      cursor: pointer;
+      display: block;
+      transform: rotate(-90deg);
+    }
   }
 }

@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { Button } from "antd";
 import { render } from "react-dom";
 import "antd/dist/antd.css";
 import pickItem from "../package/main";
@@ -66,7 +67,9 @@ function App() {
 
   return (
     <>
-      <button onClick={onClick}>选择</button>
+      <Button type="primary" onClick={onClick}>
+        选择
+      </Button>
       {list.map((it) => (
         <p key={it.key}>{it.value}</p>
       ))}

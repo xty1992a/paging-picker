@@ -1,5 +1,5 @@
 import React from "react";
-import { Pagination } from "antd";
+import { Pagination, Icon } from "antd";
 import { DataQuery } from "../../types";
 import "./index.less";
 
@@ -25,6 +25,13 @@ export default function PagingTable(props: PagingTableProps) {
       <div className="paging-table_content">{props.children}</div>
 
       <div className="paging-table_foot">
+        <span
+          className="refresh"
+          onClick={() => onChange(props.value.pageIndex, props.value.pageSize)}
+        >
+          <Icon type="redo" />
+        </span>
+        <span>共{props.total}条</span>
         <Pagination
           size="small"
           showSizeChanger

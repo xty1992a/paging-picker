@@ -40,8 +40,7 @@ export interface PickOptions<T> {
   searchable?: boolean;
   request?: DataRequest<T>;
   alias?: {
-    key: Partial<T>;
-    title: Partial<T>;
+    key: keyof T;
   };
 }
 
@@ -56,8 +55,7 @@ export interface PagingPickerProps<T> extends React.Props<any> {
   resolve: Function;
   columns: ColumnProps<T>[];
   alias: {
-    key: string;
-    title: string;
+    key: keyof T;
   };
   placeholder?: string;
 }

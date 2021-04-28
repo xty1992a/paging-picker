@@ -2,13 +2,7 @@ import React from "react";
 import { render, unmountComponentAtNode } from "react-dom";
 import PagingPicker from "./PagingPicker";
 
-import type {
-  PickOptions,
-  Pack,
-  Item,
-  PickResult,
-  PagingPickerProps,
-} from "../types";
+import type { PickOptions, PickResult, PagingPickerProps } from "../types";
 
 const dftOptions = {
   value: [],
@@ -20,52 +14,53 @@ const dftOptions = {
   searchable: false,
   alias: {
     key: "key",
-    title: "title",
   },
 };
 
-function mergeOptions<T>(
-  lameOptions: PickOptions<T> & { resolve: Function }
-): PagingPickerProps<T> {
-  const result = {
-    ...dftOptions,
-    ...lameOptions,
-    alias: {
-      ...dftOptions.alias,
-      ...(lameOptions?.alias ?? {}),
-    },
-  };
-
+function mergeOptions<Item>(
+  lameOptions: PickOptions<Item> & { resolve: Function }
+): PagingPickerProps<Item> {
+  // region 合并静态options
   // 无request,但有options,实际就是静态options的配置项
   const request =
-    result.request ||
+    lameOptions.request ||
     (() =>
       Promise.resolve({
         success: true,
         data: {
-          list: result.options || [],
-          total: result.options?.length ?? 0,
+          list: lameOptions.options || [],
+          total: lameOptions.options?.length ?? 0,
         },
       }));
+  // endregion
 
-  // @ts-ignore
+  const result: PagingPickerProps<Item> = {
+    ...dftOptions,
+    ...lameOptions,
+    alias: {
+      ...(dftOptions.alias as { key: keyof Item }),
+      ...(lameOptions?.alias ?? {}),
+    },
+    request,
+  };
+
   return {
     ...result,
     request,
   };
 }
 
-export default function pickItem<T>(
-  options: PickOptions<T>
-): Promise<PickResult<T>> {
+export default function pickItem<Item>(
+  options: PickOptions<Item>
+): Promise<PickResult<Item>> {
   return new Promise((resolve) => {
     const div = document.createElement("div");
     document.body.appendChild(div);
-    const _resolve = (result: PickResult<T>) => {
+    const _resolve = (result: PickResult<Item>) => {
       unmountComponentAtNode(div);
       resolve(result);
     };
-    const mergedOptions = mergeOptions<T>({ ...options, resolve: _resolve });
+    const mergedOptions = mergeOptions<Item>({ ...options, resolve: _resolve });
     render(<PagingPicker {...mergedOptions} />, div);
   });
 }
